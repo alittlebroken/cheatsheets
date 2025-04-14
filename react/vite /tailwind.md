@@ -31,4 +31,4 @@ code src\index.css
 ```js
 @import "tailwindcss";
 ```
-- Save and clsoe the file
+- Save and close the file
