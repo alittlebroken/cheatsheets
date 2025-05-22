@@ -4,7 +4,7 @@ The below set of steps allow you to setup a new or existing ReactJS project to u
 ## Install packages
 
 ```bash
-npm install jest jestdom jest-environment-jsdom --save-dev
+npm install jest jest-dom jest-environment-jsdom --save-dev
 npm install @testing-library/react @testing-library/jest-dom --save-dev
 npm install @babel/preset-env @babel/preset-react
 ```
