@@ -248,3 +248,8 @@ dist
   git commit -m "Initial project setup"
   git push -U origin main
 ```
+
+## TODO
+
+* Create a repo that has the above already setup that we can clone easily for new projects
+* Add steps for docker config as well
