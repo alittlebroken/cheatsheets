@@ -20,7 +20,7 @@ npm install express cors helmet joi express-rate-limit dotenv
 
 * Install the dev dependencies
 ```bash
-npm instal --save-dev jest nodemon
+npm install --save-dev jest nodemon
 ```
 
 * You can also install any other optional packages here, I usually use the following in my projects
@@ -33,13 +33,13 @@ npm install knex dayjs jsonwebtoken multer
 ```bash
 cd nodejs-express-app
 mkdir src
-mkdir src/routes/api/v1
-mkdir src/services
-mkdir src/controllers
-mkdir src/utils
-mkdir src/config
-mkdir src/middleware
-mkdir src/database
+mkdir \src\routes\api\v1
+mkdir \src\services
+mkdir \src\controllers
+mkdir \src\utils
+mkdir \src\config
+mkdir \src\middleware
+mkdir \src\database
 mkdir uploads
 mkdir __tests__
 ```
@@ -56,7 +56,7 @@ import app from "./src/app.js";
 
 app.listen(config.APPPORT, err => {
     if(err){
-        throw error;
+        throw err;
     }
     console.log("Server listening on port: ", config.APPPORT);
 });
