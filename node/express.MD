@@ -77,7 +77,7 @@ import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit'
 
 /** Import Middleware **/
-import { logging } from './middleware/logging.js';
+import logging from './middleware/logging.js';
 
 const app = express();
 app.use(express.json());
@@ -100,7 +100,7 @@ app.use(rateLimit({
 /** Assign the logging middleware for all routes **/
 app.use(logging);
 
-/** Apply helmet to the routes *//
+/** Apply helmet to the routes */
 app.use(helmet());
 
 /** Routes **/
@@ -108,6 +108,37 @@ app.use(helmet());
 export default app
 ```
 * Now save and close the file
+
+* Create the logging file file
+```bash
+code src/middleware/logging.js
+```
+
+* Copy and paste the following code into it
+```bash
+import dayjs from 'dayjs';
+
+const logging = (req, res, next) => {
+
+    /* Set the date and time of the route access */
+    const dt = dayjs().format("DD-MM-YYYY hh:mm:ss.sssZ");
+
+    /* Gather the request and response vars we need */
+    const method = req.method;
+    const url = req.url;
+    const status = res.statusCode;
+    const address = req.ip;
+    const host = req.hostname;
+
+    console.log(`[${dt}] ${host}(${address}) ${status} ${method} ${url}`);
+
+    next();
+
+};
+
+export default logging;
+```
+* Save and close the file
 
 * Create the config file
 ```bash
@@ -124,6 +155,8 @@ const APPPORT = process.env.APP_PORT || 3000;
 const config = {
     APPPORT,
 }
+
+export config;
 ```
 * Save and close the file
 
