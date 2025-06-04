@@ -41,6 +41,7 @@ mkdir src/config
 mkdir src/middleware
 mkdir src/database
 mkdir uploads
+mkdir __tests__
 ```
 
 * Create the server.js entry point for the app
