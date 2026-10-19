@@ -1,70 +1,107 @@
 # Setting up your project for testing
-The below set of steps allow you to setup a new or existing ReactJS project to use Jest for testing
+The below set of steps allow you to setup a new or existing ReactJS project to use vitest for testing
+
+Test files should live in the same location as the Component being tested and have either spec or test 
+in the name.
+
+```bash
+Button.jsx
+Button.css
+Button.test.jsx
+```
 
 ## Install packages
 
 ```bash
-npm install jest jest-dom jest-environment-jsdom --save-dev
-npm install @testing-library/react @testing-library/jest-dom --save-dev
-npm install @babel/preset-env @babel/preset-react
+npm i --save-dev @testing-library/jest-dom @testing-library/react @testing-library/user-event
+npm i --save-dev vitest msw jsdom @types/react @types/react-dom
 ```
 
-## Configure Jest
+## Configuration
 
-Run the following commands from the root fo your project directory
+### MSW
 
-``bash
-code jest.config.js
-``
+- Create a folder called mocks in the project root
+- Inside here create a new file called handlers.js with the following initial code
 
-- Copy and paste the following code into the file
-```js
-export default {
-    testEnvironment: "jsdom",
-    moduleNameMapper: {
-        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-        "\\.(css|less|css.ts|css.js)$": "<rootDir>/__mocks__/styleMock.js"
+ ```javascript
+    import { http, HttpResponse } from 'msw';
+
+    export const handlers = [
+        // Add handlers here
+    ]
+ ```
+
+### VITEST
+
+- In the project root create the file vitest.setup.ts and add the following initial code
+
+```javascript
+    import '@testing-library/jest-dom';
+    import { afterEach } from 'vitest';
+    import { cleanup } from '@testing-library/react';
+
+    afterEach(() => {
+        cleanup()
+    });
+```
+
+- Modify the file vite.config.js file in the project root with the following code
+```javascript
+    import react from '@vitejs/plugin-react';
+    import { defineConfig } from 'vitest/config';
+    
+    // https://vite.dev/config/
+    export default defineConfig({
+      plugins: [react()],
+      test: {
+        environment: 'jsdom',
+        globals: true,
+        setupFiles: './vitest.setup.js'
+      }
+    })
+```
+
+- In the root of the project folder, modify the scripts section of the package.json file to include the following.
+```javascript
+    /**  ... Below is the other script settings if you have any */
+    "scripts": {
+        ...,
+        "test": "vitest run",
+        "test:watch": "vitest"
     }
-}
 ```
-- save and close the file
+ 
+### Test files
 
-- Create the scripts to mock CSS and IMG files
-```bash
-mkdir __mocks__
-cd __mocks__
-code fileMock.js
+- Each test file should end in either spec.jsx or test.jsx I.E Button.test.jsx
+- The format of the file should be as follows
+
+```javascript
+import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi} from 'vitest';
+import { userEvent } from '@testing-library/user-event';
+
+/** Import component here
+ * I.E. import Button from './Button.jsx;
+ */
+
+describe('Component', () => {
+
+    beforeEach(() => {});
+    afterEach(() => {});
+
+    // Sample test case
+    it('should render the component', async () => {
+
+        // Setup any props needed for the component and render it
+        const propTitle = 'Click Me';
+        render(<Button title={title} />);
+
+        // Check that the Button appears in the dom as you'd expect
+        expect(screen.getByRole('button', { name: /Click Me/i })).ToBeInTheDocument();
+
+    });
+
+};
 ```
-
-- Copy and paste the following code into the file
-```js
-export {};
-export default "file-stub";
-```
-- save and close the file
-
-```bash
-code styleMock.js
-```
-
-- Copy and paste the following code into the file
-```js
-export default {};
-```
-- save and close the file
-
-## Configure babel
-
-All commands should be run from the project root
-
-```bash
-code babel.config.js
-```
-
-- Copy the following code into the file
-```js
-export default {
-    presets: ['@babel/preset-env', ['@babel/preset-react', { "runtime": "automatic" }]]
-}
-```
-- Save and close the file
