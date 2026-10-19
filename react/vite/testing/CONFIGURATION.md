@@ -32,6 +32,90 @@ npm i --save-dev vitest msw jsdom @types/react @types/react-dom
     ]
  ```
 
+### MSW Route Handlers
+
+- Open up the mocks/handler.js file created earlier
+- For a GET Http request you can do something similar to the following
+```javascript
+    export const handlers = [
+       http.get('https://api.example.com/users', ({ request }) => {
+         return HttpResponse.json({
+           id: 1,
+           username: 'tuser1',
+           displayName: 'Test User # 1',
+           email: 'user1@test.com'
+         });
+       }),
+    ]
+```
+
+- To specify params passed in do the following
+```javascript
+ export const handlers = [
+        http.get('https://api.example.com/users/:id', async ({ params, request }) => {
+           const { id } = params;
+
+           if(id === "abc-123"){
+              return new HttpResponse(
+                { errorMessage: 'User not found' },
+                { status: 404 }
+              );
+           };
+ 
+        }),
+    ]
+```
+
+- To specify query params do the following
+```javascript
+ export const handlers = [
+        http.get('https://api.example.com/users', async ({ request }) => {
+           const url = new URL(request.url);
+           const userId = urel.searchParams.get('id');           
+
+           if(!userId) return new HttpResponse(null, { status: 404 });
+
+           return httpResponse.json({
+             id: userId
+           });
+ 
+        }),
+    ]
+```
+
+- To Specify cookies do the following
+```javascript
+ export const handlers = [
+        http.get('https://api.example.com/users', async ({ cookies }) => {
+
+           if(!cookies.authToken){
+             return new HttpResponse(null, { status: 403 });
+           };
+
+           return HttpResponse.json({ name: 'Jason' });
+
+        }),
+    ]
+```
+
+- For a POST/PUT request it is something similar
+```javascript
+    export const handlers = [
+       http.get(...),
+       // For PUT requests just use put instead of post after http
+       http.post('https://api.example.com/users', async ({ request }) => {
+
+          // Clone the request body for PUT and POST requests
+          const reqBody = await request.clone().json();
+
+          if(reqBody.id === "user1"){
+            return HttpResonse.json({ id: "user1" });
+          };
+
+       }),
+    ]
+```
+
 ### VITEST
 
 - In the project root create the file vitest.setup.ts and add the following initial code
