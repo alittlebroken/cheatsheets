@@ -2,6 +2,49 @@
 
 The below are just some notes I jotted down whilst building various APIS
 
+## NPM Packages used for TDD
+
+- vitest
+- supertest
+
+## Integration Testing
+
+Allows you to test how well the routes work with Express and the controllers. You can mock either the controller, service or model to ensure that your routes uses the correct ones
+
+```javascript
+
+  import { request } from 'supertest';
+  import model from '../models/model.js';
+  import app from '../app.js';
+
+  describe('Route', () => {
+    it('....', async () => {
+
+        // Data for the controller to return
+        const returnData = [1, 2, 3, 4];
+
+        // Create the spy for the controller
+        vi.spyOn(model, 'findAll').mockReturnValue(returnData);
+
+        // Execute the request
+        const res = await requesat(app).get('/data');
+
+        // Check the response is as we expect
+        expect(res.status).toBe(200);
+        expect(res.headers['content-type']).toMatch(/json/);
+
+        expect(res.body).tobeDefined();
+        expect(res.body).toBeTypeOf(Array);
+        expect(res.body).toHaveLength(4);
+        expect(res.body).toEqual(returnData);
+
+    });
+  });
+
+```
+
+
+
 ## Unit Testing
 
 Allows you to test a piece of code in isolation. You will need to mock any external dependencies that the code relies on
