@@ -6,7 +6,7 @@ The below are just some notes I jotted down whilst building various APIS
 
 Allows you to test a piece of code in isolation. You will need to mock any external dependencies that the code relies on
 
-## Controllers
+### Controllers
 
 Unit testing a controller means you need to mock the req and res objects as well as any services it uses.
 
@@ -36,7 +36,7 @@ Unit testing a controller means you need to mock the req and res objects as well
   });
 ```
 
-## Services
+### Services
 
 To unit test a service you would need to Mock either the underlying model it uses or database if it connects to them directly.
 
