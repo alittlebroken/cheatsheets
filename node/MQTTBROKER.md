@@ -38,6 +38,21 @@ const settings = {
 
 const server = new mosca.server(settings);
 
+// Listen for clients connecting
+server.on('clientConnected', (client) => {
+  console.log(`Client connected: ${client.id}`);
+});
+
+// Listen for client disconnects
+server.on('clientDisconnected', (client) => {
+  console.log(`Client disconnected: ${client.id}`);
+});
+
+// Listen for messages
+server.on('published', (packet, client) => {
+  console.log(`Published: `, packet.payload);
+});
+
 server.on('ready', () => {
   console.log('MQTT Broker ready');
 });
