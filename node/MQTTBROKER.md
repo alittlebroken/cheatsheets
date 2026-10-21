@@ -36,7 +36,7 @@ const settings = {
   port: 1883
 };
 
-const server = new mosca.server(settings);
+const server = new mosca.Server(settings);
 
 // Listen for clients connecting
 server.on('clientConnected', (client) => {
