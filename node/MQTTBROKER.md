@@ -94,3 +94,62 @@ client.on('message', (topic, message) => {
 };
 
 ```
+
+## Examples
+
+### Express & MQTT
+
+A simple and quick express app showing how it can connect to mqtt, receive messages for one or more topics and publish messages to a topic as well
+
+The examples below assume you are using an existing mqtt broker
+
+```javascript
+/** app.js */
+import express from 'express';
+import mqtt from 'mqtt';
+import cors from 'cors';
+
+// Setup the base app
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// Setup and configure cors
+app.use(cors({
+  origin: 'http://localhost, https://localhost',
+  credentials: true,
+}));
+
+// Setup and configure the MQTT client
+const mqclient = mqtt.connect('http://localhost:8341');
+
+// Subscribe to the relevant topics
+mqclient.on('connect', () => {
+  client.subscribe('device_id/led');
+  client.subscribe('device_id/temp');
+  client.subscribe('device_id/humidity');
+});
+
+// Listen for messages
+mqclient.on('message', (topic, message) => {
+  // Check to ensure the message is handed off to the correct topic handler
+  if(topic === 'device_id/led'){
+    handleLedTopic(JSON.parse(message.toString()));
+  }
+});
+
+// Routes
+// Route to toggle the led on or off
+app.use('/led/:toggle', async (req, res, next) => {
+  const toggle = req.params.toggle;
+
+  if(['on', 'off'].includes(toggle)){
+    client.publish('device_id/led', toggle);
+    return res.status(200).json({ message: `LED set to ${toggle}` });
+  } else {
+    return res.status(400).json({ message: `LED can't be switched to ${toggle}` });
+  }
+
+});
+
+```
