@@ -6,6 +6,30 @@ The Mosca broker (Server) is a package that allows you to utilise nodeJs as a se
 
 It is a good idea to secure the mqtt broker with usernames and passwords and any API endpoints with tokens and keys
 
+## Topic Standards
+
+The following is the structure of a topic to be used in the IoT API
+
+type/version/location/sublocation/device_id/thing/
+
+| Name | Description |
+| ---- | ----------- |
+| type | The type of main topic this wee be . Either dt (data) or cmd (command) |
+| version | The version of the topic. Useful if breaking changes need to be introduced, the previous versions are not affected |
+| location | Where is the device located |
+| sublocation | A further lcoation within the main location where the device is |
+| device_id | The internal identifier of the device being used |
+| thing | The thing sending the data or being affected by a command | 
+
+### Examples
+
+dt/1/home/kitchen/3425/temp
+dt/1/home/kitchen/3425/humid
+dt/1/home/kitchen/3425/lightlevel
+cmd/1/home/garage/3426/garagedoor
+cmd/1/home/garage/3426/lights
+cmd/1/home/garage/3426/extractor
+
 ## Installation
 
 ```bash
