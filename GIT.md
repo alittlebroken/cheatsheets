@@ -1,5 +1,12 @@
 # GIT Cheatsheet
 
+## Workflow
+
+- All work done in branches not main
+- Commit after each change / feature is done
+- Push as soon as possible
+- Merge with main once tests pass
+
 ## Initialise git 
 
 - Run the following to setup a project folder as a git repo
@@ -23,6 +30,11 @@ git config --global user.email <your email>
 - Check the current status of your repo
 ```bash
 git status
+```
+
+- List commits on your current branch
+```bash
+git log
 ```
 
 ### Branches
