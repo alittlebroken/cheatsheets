@@ -44,3 +44,31 @@ or use the following
 
 git switch -c <branch_name>
 ```
+
+### Committing changes
+
+- List changes ready to be added to staging
+```bash
+git status
+```
+
+- Add all changes 
+```bash
+git add .
+```
+
+- Add one file
+```bash
+git add <file>
+```
+
+- Commit the changes
+```bash
+git commit -m "Initial commit"
+```
+
+- Push the changes to the remote repo
+```bash
+git push
+```
+
