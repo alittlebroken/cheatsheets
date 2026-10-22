@@ -15,18 +15,14 @@ npm init -y
 
 * Install the main packages
 ```bash
-npm install express cors helmet joi express-rate-limit dotenv
+npm i express cors helmet joi sequalize pg pg-hstore jsonwebtoken dayjs multer winston winston-daily-rotate-file express-rate-limit cookie-parser
 ```
 
 * Install the dev dependencies
 ```bash
-npm install --save-dev jest nodemon
+npm i --save-dev vitest supertest nodemon dotenv
 ```
 
-* You can also install any other optional packages here, I usually use the following in my projects
-```bash
-npm install knex dayjs jsonwebtoken multer
-```
 ## Configuration
 
 * Create the various sub folders after installation
