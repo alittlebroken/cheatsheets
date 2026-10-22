@@ -52,12 +52,12 @@ git switch -c <branch_name>
 git status
 ```
 
-- Add all changes 
+- Add all changes to staging
 ```bash
 git add .
 ```
 
-- Add one file
+- Add one file to staging
 ```bash
 git add <file>
 ```
